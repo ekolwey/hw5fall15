@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  
 
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
@@ -60,5 +61,39 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-
+  
+  
+  def search_tmdb
+    @movie_title = params[:search][:search_Tmdb]
+    
+    if (@movie_title.eql?(""))
+      flash[:notice] = "Invalid Search Term"
+      redirect_to movies_path
+    else
+      @matching_movies = Movie.find_in_tmdb(@movie_title)
+      
+      if @matching_movies.eql?("")
+        flash[:notice] = "No matching movies were found on TMDb"
+        redirect_to movies_path
+      end
+    end
+  end
+  
+  
+  def add_tmdb
+    @movies_to_add = params[:tmdb_movies]
+    
+    if(@movies_to_add == nil)
+      flash[:notice] = "No movies selected"
+      redirect_to movies_path
+    else
+      @movies_to_add.keys.each do |movie|
+        Movie.create_from_tmdb(movie)
+      end
+      
+      flash[:notice] = "Movies successfully added to Rotten Potatoes"
+      redirect_to movies_path
+    end
+  end
+  
 end

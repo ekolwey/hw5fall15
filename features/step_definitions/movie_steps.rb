@@ -78,13 +78,14 @@ Then /^I should see only movies rated: "(.*?)"$/ do |arg1|
   
   result = false;
   ratings = arg1.split(%r{,\s*})
+  r = 'Movie Title'
   
   ratings.each { |rating|
-  all("td").each do |td|
-    if td.has_content?(rating)
-      result = true;
+  all("tr").each do |tr|
+    if tr.has_content?(rating)
+      result = true
     else
-      result = false;
+      result = false
     end
   end
   }
@@ -132,22 +133,3 @@ end
 When /^I have opted to sort movies in increasing order of release date$/ do
   click_link("Release Date")
 end
-
-#Then /^I will find "(.*?)" before "(.*?)"$/ do |movie1, movie2|
-#  first_m = 0
-#  release = false
-  
-#  all("td").each do |td|
-#    if td.has_content?(movie1)
-#     first_m = 1
-#    end
-#    if first_m == 1
-#      if td.has_content?(movie2)
-#        release = true
-#      end
-#    end
-#  end
-  
-#  expect(release).to be_truthy
-#end
-

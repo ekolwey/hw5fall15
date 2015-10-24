@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   #   resources :products
 
   resources :movies
+  match '/movies/search_tmdb', to: 'movies#search_tmdb', via: :post 
+  match '/movies/add_tmdb', to: 'movies#add_tmdb', via: :post
   
   # Example resource route with options:
   #   resources :products do

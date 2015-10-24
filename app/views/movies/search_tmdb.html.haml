@@ -1,0 +1,22 @@
+%h1 The following movies containing '#{@movie_title}' were found on TMDb
+= form_tag movies_add_tmdb_path do
+
+  %table#movies
+    %thead
+      %tr
+        %th Movie Title
+        %th Rating
+        %th Release Date
+        %th Select
+    %tbody
+      - @matching_movies.each do |movie|
+        %tr
+          %td= movie["title"]
+          %td= movie["rating"]
+          %td= movie["release_date"]
+          %td= check_box_tag "tmdb_movies[#{movie["tmdb_id"]}]", 1, false, :id => "search"
+      
+
+  = submit_tag 'Add Selected Movies', :id => 'add_movies'
+
+= link_to 'Return to Movie List', movies_path
